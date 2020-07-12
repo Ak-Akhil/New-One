@@ -4,15 +4,32 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Student</h2>
 
 
 @using (Html.BeginForm("Edit", "Item", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
+
+    <h2>
+
+        @if (ViewBag.Image == "True")
+        {
+            <img src="@Html.DisplayFor(model => model.Photo_Path)" style="width:130px;height:130px; background: #FFFFFF;
+    margin: auto;
+    -moz-border-radius: 60px;
+    border-radius: 100px;
+    padding: 6px;
+    box-shadow: 0px 0px 20px #888;" />
+        }
+        @Html.DisplayFor(model => model.First_Name)  @Html.DisplayFor(model => model.Last_Name)
+    </h2>
+
+
+
     <div class="form-horizontal">
-        <h4>Item</h4>
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -65,14 +82,24 @@
             </div>
         </div>
 
+
+
+        @Html.HiddenFor(model => model.Photo_Path, new { htmlAttributes = new { @class = "form-control" } })
         <div class="form-group">
-            <label class="control-label col-md-2" for="Photo">Photo</label>
+            @Html.Label("Current Photo Path", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Photo_Path, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.Photo_Path, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Photo">Upload New Photo</label>
             <div class="col-md-10">
                 <input type="file" name="photo" />
                 @Html.ValidationMessageFor(model => model.Photo_Path, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

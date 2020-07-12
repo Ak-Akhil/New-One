@@ -8,6 +8,7 @@ using todo.Models;
 
 namespace todo.Controllers
 {
+    [System.Web.Mvc.Authorize]
     public class ImageController : Controller
     {
         // GET: Image

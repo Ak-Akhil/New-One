@@ -14,6 +14,8 @@
     using OfficeOpenXml;
     using todo.Models;
 
+    [System.Web.Mvc.Authorize]
+
     public class ItemController : Controller
     {
         //[ActionName("Index")]
@@ -32,15 +34,15 @@
             if (option == "StudentNum")
             {
                 //Index action method will return a view with a student records based on what a user specify the value in textbox  
-                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status && d.Student_Number.ToLower().Contains(search.ToLower())));
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status && d.Student_Number.ToLower().StartsWith(search.ToLower())));
             }
             else if (option == "FirstName")
             {
-                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status && d.First_Name.ToLower().Contains(search.ToLower())));
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status && d.First_Name.ToLower().StartsWith(search.ToLower())));
             }
             else if (option == "LastName")
             {
-                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status && d.Last_Name.ToLower().Contains(search.ToLower())));
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status && d.Last_Name.ToLower().StartsWith(search.ToLower())));
             }
             else
             {
@@ -77,7 +79,20 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync( Item item,HttpPostedFileBase photo)
         {
-            if (ModelState.IsValid)
+            var user = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Student_Number == item.Student_Number);
+
+            if (user.FirstOrDefault() != null)
+            {
+
+                ModelState.AddModelError("Student_Number", "Student Number Already Exists");
+                return View(item);
+
+
+            }
+
+
+
+                if (ModelState.IsValid)
             {
                 var imageUrl = await imageService.UploadImageAsync(photo);
                 if (photo != null)
@@ -99,18 +114,25 @@
         {
             if (ModelState.IsValid)
             {
-                var imageUrl = await imageService.UploadImageAsync(photo);
-                if (imageUrl != null)
+
+                if (photo == null || photo.ContentLength == 0)
                 {
+
+                }
+                else
+                {
+                    var imageUrl = await imageService.UploadImageAsync(photo);
+
                     item.Photo_Path = imageUrl.ToString();
                 }
-
                 await DocumentDBRepository<Item>.UpdateItemAsync(item.Id, item);
                 return RedirectToAction("Index");
             }
 
             return View(item);
         }
+
+
 
         [ActionName("Edit")]
         public async Task<ActionResult> EditAsync(string id, string student_no)
@@ -124,6 +146,19 @@
             if (item == null)
             {
                 return HttpNotFound();
+            }
+
+                        if(item.Photo_Path != null)
+            {
+
+                ViewBag.Image = "True";
+
+            }
+            else
+            {
+
+                ViewBag.Image = "False";
+
             }
 
             return View(item);
@@ -163,6 +198,12 @@
             {
 
                 ViewBag.Image = "True";
+
+            }
+            else
+            {
+
+                ViewBag.Image = "False";
 
             }
             return View(item);
