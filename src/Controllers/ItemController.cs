@@ -76,7 +76,6 @@
 
         [HttpPost]
         [ActionName("Create")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync( Item item,HttpPostedFileBase photo)
         {
             var user = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Student_Number == item.Student_Number);
@@ -109,7 +108,6 @@
 
         [HttpPost]
         [ActionName("Edit")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditAsync(Item item, HttpPostedFileBase photo)
         {
             if (ModelState.IsValid)
@@ -183,7 +181,6 @@
 
         [HttpPost]
         [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmedAsync(string id, string student_no)
         {
             await DocumentDBRepository<Item>.DeleteItemAsync(id, student_no);
