@@ -4,10 +4,25 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Student Details</h2>
+
+
+    <h2>
+
+            @if (ViewBag.Image == "True")
+            {
+        <img src="@Html.DisplayFor(model => model.Photo_Path)" style="width:130px;height:130px; background: #FFFFFF;
+    margin: auto;
+    -moz-border-radius: 60px;
+    border-radius: 100px;
+    padding: 6px;
+    box-shadow: 0px 0px 20px #888;" />
+            }
+        @Html.DisplayFor(model => model.First_Name)  @Html.DisplayFor(model => model.Last_Name)
+    </h2>
 
 <div>
-    <h4>Item</h4>
+   
     <hr />
     <dl class="dl-horizontal">
         <dt>

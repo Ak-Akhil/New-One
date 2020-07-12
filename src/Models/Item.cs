@@ -53,6 +53,7 @@
 
 
         [Display(Name = "Photo Path")]
+
         [JsonProperty(PropertyName = "Photo Path")]
         public string Photo_Path { get; set; }
 
@@ -60,7 +61,7 @@
 
         [Required]
         [JsonProperty(PropertyName = "Status")]
-        [Display(Name = "Status")]
+        [Display(Name = "Is Student Active")]
         public bool Status { get; set; }
 
 
