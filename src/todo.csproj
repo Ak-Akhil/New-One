@@ -245,13 +245,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Item\Index.cshtml" />
-    <Content Include="Views\Item\backupedit.cshtml" />
     <Content Include="Views\Item\Create.cshtml" />
     <Content Include="Views\Item\Delete.cshtml" />
     <Content Include="Views\Item\Details.cshtml" />
     <Content Include="Views\Item\EmailTheStudent.cshtml" />
     <Content Include="Views\Item\Edit.cshtml" />
-    <Content Include="Views\Item\backupIndex.cshtml" />
     <Content Include="Views\Image\LatestImage.cshtml" />
     <Content Include="Views\Image\upload.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />

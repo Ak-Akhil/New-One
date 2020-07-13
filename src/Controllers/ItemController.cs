@@ -27,30 +27,56 @@
         ImageService imageService = new ImageService();
 
         [ActionName("Index")]
-        public async Task<ActionResult> IndexAsync(string option, string search)
+        public async Task<ActionResult> IndexAsync(string option, string search, string Status)
         {
             var items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status);
 
-            if (option == "StudentNum")
+            if (option == "StudentNum" && Status == "InActive")
+            {
+                //Index action method will return a view with a student records based on what a user specify the value in textbox  
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => !d.Status && d.Student_Number.ToLower().StartsWith(search.ToLower())));
+            }
+            else if (option == "FirstName" && Status == "InActive")
+            {
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => !d.Status && d.First_Name.ToLower().StartsWith(search.ToLower())));
+            }
+            else if (option == "LastName" && Status == "InActive")
+            {
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => !d.Status && d.Last_Name.ToLower().StartsWith(search.ToLower())));
+            }
+
+            else if (option == "StudentNum" && Status == "Active")
             {
                 //Index action method will return a view with a student records based on what a user specify the value in textbox  
                 return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status && d.Student_Number.ToLower().StartsWith(search.ToLower())));
             }
-            else if (option == "FirstName")
+            else if (option == "FirstName" && Status == "Active")
             {
                 return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status && d.First_Name.ToLower().StartsWith(search.ToLower())));
             }
-            else if (option == "LastName")
+            else if(option == "LastName" && Status == "Active")
             {
                 return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status && d.Last_Name.ToLower().StartsWith(search.ToLower())));
             }
-            else
-            {
 
-                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status));
+            else if (option == "StudentNum" && Status == "All")
+            {
+                //Index action method will return a view with a student records based on what a user specify the value in textbox  
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Student_Number.ToLower().StartsWith(search.ToLower())));
+            }
+            else if (option == "FirstName" && Status == "All")
+            {
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.First_Name.ToLower().StartsWith(search.ToLower())));
+            }
+            else if (option == "LastName" && Status == "All")
+            {
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Last_Name.ToLower().StartsWith(search.ToLower())));
             }
 
-
+            else
+            {
+                return View(items = await DocumentDBRepository<Item>.GetItemsAsync(d => d.Status || !d.Status));
+            }
 
         }
 
