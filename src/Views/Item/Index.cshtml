@@ -7,9 +7,10 @@
 <h2>List of Active Students</h2>
 @using (Html.BeginForm("Index", "Item", FormMethod.Get))
 {
-    <p>
-        @Html.ActionLink("Add Student", "Create")
-    </p>
+<p>
+    @Html.ActionLink("Add Student", "Create",null, new { @class = "btn btn-default" })
+</p>
+   
     <b> Search Option:</b> @Html.RadioButton("option", "FirstName", new { @checked = "checked" }) <text>  First Name  </text> @Html.RadioButton("option", "LastName") <text>  Last Name  </text>
         @Html.RadioButton("option", "StudentNum")<text>  Student Number  </text> @Html.TextBox("search")
         <input type="submit" value="Search" class="btn btn-default" />
